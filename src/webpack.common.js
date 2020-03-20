@@ -1,3 +1,7 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = {
   entry: "./src/index.tsx",
   output: {
