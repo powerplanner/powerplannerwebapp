@@ -29,8 +29,8 @@
     "ste-simple-events": "^1.4.10"
   },
   "scripts": {
-    "start": "webpack-dev-server --content-base ./public",
-    "build": "webpack",
+    "start": "webpack-dev-server --content-base ./public --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
@@ -65,6 +65,7 @@
     "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.2"
   }
 }
