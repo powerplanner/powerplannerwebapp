@@ -39,6 +39,7 @@ export interface IPowerGetClassesAndScheduleResponse extends IPowerPlainResponse
 
 export interface IPowerGetClassesSchedulesAndMegaItemsResponse extends IPowerPlainResponse {
   WeekOneStartsOn: IDate,
+  PremiumAccountExpiresOn: IDate,
   Classes: IPowerBasicClassInfo[],
   Schedules: IPowerBasicScheduleInfo[],
   MegaItems: IPowerListItemMegaItem[]
@@ -77,4 +78,12 @@ export interface IPowerGetFullMegaItemResponse extends IPowerPlainResponse {
 export interface IPowerGetFullClassResponse extends IPowerPlainResponse {
   Details: string,
   ImageNames: string[]
+}
+
+export interface IPowerUpdateError {
+  Identifier: IGuid
+}
+
+export interface IPowerModifyResponse extends IPowerPlainResponse {
+  UpdateErrors: IPowerUpdateError[]
 }

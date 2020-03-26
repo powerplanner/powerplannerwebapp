@@ -25,6 +25,11 @@ export class MainState {
   }
 
   private _weekOneStartsOn: Moment = moment();
+  private _premiumAccountExpiresOn: Moment = moment();
+
+  get hasPremium() {
+    return this._premiumAccountExpiresOn.isAfter(moment());
+  }
 
   @computed get hasSemesterAndClasses() : boolean {
     return (this.hasSemester && this.currSemesterState!.classes.length > 0) ? true : false;
@@ -44,6 +49,7 @@ export class MainState {
       });
       this._currSemesterState = new SemesterState(semesterId, classes);
       this._weekOneStartsOn = IDate.toMoment(semesterContent.WeekOneStartsOn);
+      this._premiumAccountExpiresOn = IDate.toMoment(semesterContent.PremiumAccountExpiresOn);
     } catch (err) {
       console.log(err.toString());
     }

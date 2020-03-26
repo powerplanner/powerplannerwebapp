@@ -45,7 +45,8 @@ const useStyles = makeStyles(theme => ({
 
 const YearsShell = observer((props:{
   years?: ViewItemYear[],
-  error?: string
+  error?: string,
+  addSemester?: (year: ViewItemYear) => void
 }) => {
 
   const classes = useStyles();
@@ -89,7 +90,7 @@ const YearsShell = observer((props:{
       <Paper className={classes.yearRoot} elevation={1}>
         <Typography className={classes.yearName} variant="h5" onClick={() => history.push("/years/" + yearProps.year.identifier.toString() + "/edit")}>{yearProps.year.name}</Typography>
         {yearProps.year.semesters.map(s => <Semester key={s.identifier.toString()} semester={s} year={yearProps.year}/>)}
-        <Button className={classes.addSemesterButton} variant="contained" fullWidth component={RouterLink} to={`/years/${yearProps.year.identifier.toString()}/add-semester`}>Add semester</Button>
+        <Button className={classes.addSemesterButton} variant="contained" fullWidth onClick={() => props.addSemester!(yearProps.year)}>Add semester</Button>
       </Paper>
     );
   }

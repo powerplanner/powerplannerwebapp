@@ -133,7 +133,7 @@ export default class Api {
       megaItemType?: MegaItemType
     }[],
     deletes?: Guid[]
-  }) {
+  }) : Promise<Responses.IPowerPlainResponse> {
     let Updates:any[] | undefined = undefined;
     if (request.updates) {
       Updates = request.updates.map(i => {
@@ -168,11 +168,25 @@ export default class Api {
       Deletes = request.deletes.map(d => d.toString());
     }
 
-    return await this.postRequestAsync("/Modify", {
+    var resp = await this.postRequestAsync<Responses.IPowerModifyResponse>("/Modify", {
       Updates: Updates,
       Deletes: Deletes,
       SyncVersion: 4
     });
+
+    if (resp.Error) {
+      return {
+        Error: resp.Error
+      };
+    }
+
+    if (resp.UpdateErrors && resp.UpdateErrors.length > 0) {
+      return {
+        Error: "Failed to save, had update errors"
+      };
+    }
+
+    return {};
   }
 
   private static _pendingRequests: 0;
