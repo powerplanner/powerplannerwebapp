@@ -49,6 +49,7 @@ export class MainState {
       });
       this._currSemesterState = new SemesterState(semesterId, classes);
       this._weekOneStartsOn = IDate.toMoment(semesterContent.WeekOneStartsOn);
+      this._premiumAccountExpiresOn = IDate.toMoment(semesterContent.PremiumAccountExpiresOn);
     } catch (err) {
       console.log(err.toString());
     }
