@@ -92,6 +92,12 @@ export default class Api {
     });
   }
 
+  static async exportSemesterAsync(semesterId: Guid) : Promise<Responses.IPowerExportSemesterResponse> {
+    return await this.postRequestAsync("/ExportSemester", {
+      SemesterIdentifier: semesterId.toString()
+    });
+  }
+
   private static dateToString(date?:Moment) {
     if (!date) {
       return undefined;

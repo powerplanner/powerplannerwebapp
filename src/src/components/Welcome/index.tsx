@@ -57,10 +57,13 @@ const Welcome = () => {
   const qs = NavigationHelper.history.location.search;
   if (qs.startsWith("?redirect=")) {
     redirect = qs.substr("?redirect=".length);
+    redirect = decodeURIComponent(redirect);
     if (redirect.startsWith('/')) {
       redirect = "https://powerplanner.net" + redirect;
     }
   }
+
+  const isImporting = redirect !== undefined && redirect.indexOf('/import') !== -1;
 
   const MainContent = () => {
 
@@ -77,7 +80,7 @@ const Welcome = () => {
                   Power Planner
                 </Typography>
                 <Typography variant="body1" noWrap={false} style={{color: "white"}}>
-                  The ultimate homework planner (beta).
+                  {isImporting ? 'Create an account or log in to import the semester your classmate shared!' : 'The ultimate homework planner (beta)'}
                 </Typography>
               </div>
           </div>

@@ -87,3 +87,7 @@ export interface IPowerUpdateError {
 export interface IPowerModifyResponse extends IPowerPlainResponse {
   UpdateErrors: IPowerUpdateError[]
 }
+
+export interface IPowerExportSemesterResponse extends IPowerPlainResponse {
+  UrlForSharing: string
+}
