@@ -2,8 +2,9 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import YearsShell from "./YearsShell";
 import GlobalState from "models/globalState";
-import { ViewItemYear } from "models/viewItems";
+import { ViewItemYear, ViewItemSemester } from "models/viewItems";
 import NavigationHelper from "helpers/navigationHelper";
+import Api from "api";
 
 const Years = observer(() => {
   const yearsState = GlobalState.mainState!.yearsState;
@@ -19,8 +20,16 @@ const Years = observer(() => {
     NavigationHelper.history.push(`/years/${year.identifier.toString()}/add-semester`);
   }
 
+  const shareSemester = async (semester: ViewItemSemester) => {
+    const resp = await Api.exportSemesterAsync(semester.identifier);
+    if (resp.Error) {
+      throw new Error(resp.Error);
+    }
+    return resp.UrlForSharing;
+  }
+
   return (
-    <YearsShell years={yearsState.years} error={yearsState.error} addSemester={addSemester}/>
+    <YearsShell years={yearsState.years} error={yearsState.error} addSemester={addSemester} shareSemester={shareSemester}/>
   )
 });
 

@@ -89,22 +89,20 @@ const YearsShell = observer((props:{
     }
 
     const ShareUrlDialog = (props:{
-      url: string,
-      open: boolean,
+      url?: string,
       onClose?: () => void
     }) => {
       return (
         <Dialog
-          open={props.open}
+          open={props.url !== undefined}
           onClose={props.onClose}>
-          <DialogTitle>Share semester</DialogTitle>
+          <DialogTitle>Share completed!</DialogTitle>
           <DialogContent>
             <DialogContentText color="inherit" style={{whiteSpace: "pre-wrap"}}>
-              {`Export completed! Copy the URL below and send it to your friends. When they click the URL, they'll be taken to Power Planner's website, prompted to log in (or create an account), and then the semester info will be imported into their account.\n\nNote that this is a static export. Any modifications you make after this will not be shared or updated. This link will always share the exported instance of your semester at this point in time.`}
+              {`Copy the URL below and send it to your classmates. When they click the URL, they'll be prompted to log in (or create an account), and then the semester info will be imported into their account.\n\nNote that this is a static export. Any modifications you make after this will not be shared or updated. This link will always share the exported instance of your semester at this point in time.`}
             </DialogContentText>
             <TextField
               value={props.url}
-              readOnly
               fullWidth/>
           </DialogContent>
           <DialogActions>
@@ -120,7 +118,7 @@ const YearsShell = observer((props:{
       semester: ViewItemSemester,
       open: boolean,
       onClose?: () => void,
-      onShare?: (semester:ViewItemSemester) => Promise<string | null>
+      onShare?: (semester:ViewItemSemester) => Promise<void>
     }) => {
     
       const [disabled, setDisabled] = React.useState(false);
@@ -138,16 +136,9 @@ const YearsShell = observer((props:{
         if (props.onShare) {
           setDisabled(true);
           try {
-            var error = await props.onShare(props.semester);
-            if (error === null) {
-              if (props.onClose) {
-                props.onClose();
-              }
-            } else {
-              alert(error);
-            }
-          } catch {
-            alert("Unknown error");
+            await props.onShare(props.semester);
+          } catch (e) {
+            alert("Unknown error: " + e.toString());
           }
           setDisabled(false);
         }
@@ -160,7 +151,7 @@ const YearsShell = observer((props:{
           <DialogTitle>Share semester</DialogTitle>
           <DialogContent>
             <DialogContentText color="inherit" style={{whiteSpace: "pre-wrap"}}>
-            Sharing a semester allows you to export the classes and schedules within your semester to your friends. This is useful if you have a classmate that has the same classes as you, so that they don't have to re-enter all the classes and schedules themselves.
+            Sharing a semester allows you to export the classes and schedules within your semester to your classmates. This is useful if you have a classmate that has the same classes as you, so they don't have to re-enter all the classes and schedules themselves.
 
             {`\n\nExported content includes...\n - Semester name, start/end date\n - Classes with name, details, color\n - Class schedules with name/time/day/room\n - Tasks/events/holidays\n - Grades (without grade received), grade scales, weight categories\n\nNote that this is a one-time export (and a one-time import on their side), any changes you make after this will not be included.`}
             </DialogContentText>
@@ -209,6 +200,9 @@ const YearsShell = observer((props:{
           open={shareOpen}
           onClose={() => setShareOpen(false)}
           onShare={onShare}/>
+        <ShareUrlDialog
+          url={shareUrl}
+          onClose={() => setShareUrl(undefined)}/>
       </Paper>
     );
   }
