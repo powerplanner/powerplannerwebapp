@@ -105,7 +105,7 @@ export default class Api {
     const answer = moment.utc().set({
       year: date.year(),
       month: date.month(),
-      day: date.day(),
+      date: date.date(),
       hour: date.hour(),
       minute: date.minute(),
       second: date.second(),
