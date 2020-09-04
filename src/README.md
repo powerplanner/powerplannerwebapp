@@ -1,16 +1,13 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Get started
 
-## Available Scripts
+1. `npm install` (only need to do that once)
+1. `npm start`
+1. Open [http://localhost:8080](http://localhost:8080) in a web browser
+1. Make edits, save, and it'll reload!
 
-In the project directory, you can run:
 
-### `npm start`
+## Other scripts
 
-Runs the app in the development mode.<br>
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
 ### Launching Storybook
 
@@ -28,6 +25,6 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 
-### Staging website
+## Staging website
 
 Code in master will automatically get built and deployed to https://powerplannerwebappstage.z5.web.core.windows.net/login
