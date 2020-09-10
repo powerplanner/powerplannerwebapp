@@ -47,7 +47,8 @@ class TaskListItem extends React.Component<TaskListItemProps, {}> {
             percentComplete={0.3}/> */}
           <div className={classes.contents}>
             <Typography component="p" noWrap={true} style={{
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              textDecoration: task.percentComplete == 1 ? 'line-through' : 'initial'
             }}>
               {task.name}
             </Typography>
