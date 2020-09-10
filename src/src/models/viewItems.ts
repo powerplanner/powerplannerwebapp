@@ -196,6 +196,27 @@ export class ViewItemMegaItem extends BaseViewItemTaskEventGrade<IViewItemMegaIt
       return this.isComplete;
     }
   }
+  
+  compareTo(otherAny:any) {
+    let other:ViewItemMegaItem;
+    if (otherAny instanceof ViewItemMegaItem) {
+      other = <ViewItemMegaItem>otherAny;
+    } else {
+      return super.compareTo(otherAny);
+    }
+
+    if (this.date! < other.date!) {
+      return -1;
+    } else if (this.date! > other.date!) {
+      return 1;
+    } else if (this.isComplete && !other.isComplete) {
+      return 1;
+    } else if (!this.isComplete && other.isComplete) {
+      return -1;
+    } else {
+      return super.compareTo(other);
+    }
+  }
 
   static fromListItem(from:IPowerListItemMegaItem, c:ViewItemClass) {
     return new ViewItemMegaItem({
