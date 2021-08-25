@@ -1,5 +1,6 @@
 # Get started
 
+1. [Install Node.js](https://nodejs.org/en/download/)
 1. `npm install` (only need to do that once)
 1. `npm start`
 1. Open [http://localhost:8080](http://localhost:8080) in a web browser
