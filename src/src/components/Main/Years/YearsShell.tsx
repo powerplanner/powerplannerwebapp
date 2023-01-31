@@ -137,7 +137,7 @@ const YearsShell = observer((props:{
           setDisabled(true);
           try {
             await props.onShare(props.semester);
-          } catch (e) {
+          } catch (e: any) {
             alert("Unknown error: " + e.toString());
           }
           setDisabled(false);

@@ -62,7 +62,7 @@ class ForgotUsernameDialog extends PopupDialogBase<ForgotUsernameDialogProps, Fo
         // Success!
         this.goToCheckedState(response.Usernames);
       }
-    } catch (err) {
+    } catch (err: any) {
       this.goToErrorState(err.toString());
     }
   }

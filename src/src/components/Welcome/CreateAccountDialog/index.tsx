@@ -103,7 +103,7 @@ class CreateAccountDialog extends PopupDialogBase<CreateAccountDialogProps, Crea
         // And navigate to the main app!
         this.finishCreateAccount();
       }
-    } catch (err) {
+    } catch (err: any) {
       this.goToErrorState(err.toString());
     }
   }
