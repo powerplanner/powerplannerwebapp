@@ -10,7 +10,6 @@ const ViewClass = (props:{
 }) => {
   const history = useHistory();
   const location = useLocation();
-  const [classMenuItem] = useParams();
 
   props.class.loadFullIfNeeded();
 

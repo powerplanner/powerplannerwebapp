@@ -9,7 +9,7 @@ import { BaseViewItemTaskEvent, ViewItemMegaItem } from 'models/viewItems';
 
 const styles = (theme: Theme) => createStyles({
   root: {
-    ...theme.mixins.gutters(),
+    // ...theme.mixins.gutters(),
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     display: "flex",

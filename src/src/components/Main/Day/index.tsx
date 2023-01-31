@@ -15,7 +15,8 @@ const Day = () => {
   const RouteDay = (props:{
     setDate: (date:Moment) => void
   }) => {
-    const { date } = useParams();
+    const params:any = useParams();
+    const date = params["date"];
     const dateVal = moment(date);
 
     props.setDate(dateVal);

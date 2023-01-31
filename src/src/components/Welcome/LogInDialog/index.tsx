@@ -83,7 +83,7 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
 
         this.finishLogin();
       }
-    } catch (err) {
+    } catch (err: any) {
       this.goToErrorState(err.toString());
     }
   }

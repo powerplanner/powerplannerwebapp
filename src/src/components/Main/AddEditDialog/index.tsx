@@ -93,7 +93,7 @@ export abstract class AddEditDialog<T, P = {}, S = {}> extends PopupDialogBase<P
         this.disabled = false;
         this.forceUpdate();
       }
-    } catch (err) {
+    } catch (err: any) {
       this._saving = false;
       this._saveError = err.toString();
       this.disabled = false;

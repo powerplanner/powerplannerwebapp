@@ -3,7 +3,7 @@ import AccountHelper from "helpers/accountHelper";
 
 // Rate-limited development key
 const hashedKey = "3a4d3d842fd5c63e8c8ba5677c18abcc59affe2f3a8179081180d56a67376a74";
-const baseUrl = "https://powerplanner.net/api";
+const baseUrl = "https://web.api.powerplanner.net/api";
 // const baseUrl = "https://powerplannerwebsite-staging.azurewebsites.net/api";
 // const baseUrl = "https://localhost:44399/api";
 

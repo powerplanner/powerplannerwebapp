@@ -58,7 +58,7 @@ export class CachedItem<T> {
       this._error = null;
       this._item = await this._loadFunction();
       this._isFullyLoaded = true;
-    } catch (err) {
+    } catch (err: any) {
       this._error = err.toString();
     }
 

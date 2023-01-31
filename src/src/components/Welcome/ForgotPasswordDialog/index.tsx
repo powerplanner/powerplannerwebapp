@@ -68,7 +68,7 @@ class ForgotPasswordDialog extends PopupDialogBase<ForgotPasswordDialogProps, Fo
         // Success!
         this.goToResetState(response.Message);
       }
-    } catch (err) {
+    } catch (err: any) {
       this.goToErrorState(err.toString());
     }
   }
