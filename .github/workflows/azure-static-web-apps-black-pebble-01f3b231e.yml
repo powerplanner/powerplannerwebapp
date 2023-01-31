@@ -18,6 +18,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Update API key
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "const\s+hashedKey(?:\s+)?=(?:\s+)?\"(\w+)\""
+          replace: "const hashedKey = \"${{ secrets.API_KEY }}\""
+          include: src/src/api/util.ts
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
