@@ -88,6 +88,9 @@ module.exports = {
     }),
     new CopyPlugin([
       { from: 'public' }
+    ]),
+    new CopyPlugin([
+      { from: 'staticwebapp.config.json' }
     ])
   ]
 };
