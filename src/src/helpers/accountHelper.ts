@@ -82,9 +82,9 @@ export default class AccountHelper {
     accountId: number,
     username: string,
     session: string) {
-      CookiesHelper.setCookie(this._keyAccountId, accountId.toString(), 1000);
-      CookiesHelper.setCookie(this._keyUsername, username, 1000);
-      CookiesHelper.setCookie(this._keySession, session, 1000);
+      CookiesHelper.setCookie(this._keyAccountId, accountId.toString(), 1000, true);
+      CookiesHelper.setCookie(this._keyUsername, username, 1000, true);
+      CookiesHelper.setCookie(this._keySession, session, 1000, true);
   }
 
   // Returns valid credentials, or else throws an error

@@ -41,17 +41,21 @@ export default class CookiesHelper {
       return null;
   }
 
-  static setCookie(cname: string, cvalue: string, exdays: number) {
+  static setCookie(cname: string, cvalue: string, exdays: number, crossSubDomain: boolean = false) {
 
       if (cvalue === null || typeof cvalue === "undefined") {
           this.deleteCookie(cname);
           return;
       }
 
+      if (document.location.host.indexOf("powerplanner.net") == -1) {
+        crossSubDomain = false;
+      }
+
       var d = new Date();
       d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
       var expires = "expires=" + d.toUTCString();
-      document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+      document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/" + (crossSubDomain ? "; domain=powerplanner.net" : "");
 
       this._cookieCache.set(cname, cvalue);
   }
