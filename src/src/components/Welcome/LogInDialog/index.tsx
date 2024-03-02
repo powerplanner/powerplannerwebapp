@@ -24,7 +24,8 @@ const styles = (theme: Theme) => createStyles({
 });
 
 export interface LogInDialogProps extends PopupDialogBaseProps, WithStyles<typeof styles> {
-  redirect?: string
+  redirect?: string,
+  state?: string
 }
 
 interface LogInDialogState extends PopupDialogBaseState {
@@ -91,6 +92,15 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
   finishLogin() {
 
     if (this.props.redirect) {
+      if (this.props.redirect.startsWith("https://chat.openai.com/")) {
+        var acct = AccountHelper.getAccountCredentials();
+        var params = new URLSearchParams({
+          code: acct.username + ";" + acct.session,
+          state: this.props.state ?? ""
+        });
+        window.location.href = this.props.redirect + "?" + params.toString();
+        return;
+      }
       window.location.href = this.props.redirect;
       return;
     }
