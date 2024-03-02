@@ -8,18 +8,6 @@ import { Typography, makeStyles, Tabs, Tab, AppBar, Toolbar} from "@material-ui/
 const heightOfHour = 120;
 const width = 200;
 
-const TabPanel = (props:{
-  children: any,
-  value: number,
-  index: number
-}) => {
-  if (props.value === props.index) {
-    return props.children;
-  } else {
-    return null;
-  }
-}
-
 const useStyles = makeStyles(theme => ({
   root: {
     position: "absolute",
