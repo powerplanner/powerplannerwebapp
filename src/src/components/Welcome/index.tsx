@@ -60,6 +60,8 @@ const Welcome = () => {
     if (redirect.startsWith('/')) {
       redirect = "https://powerplanner.net" + redirect;
     }
+  } else if (qs.has("redirect_uri")) {
+    redirect = qs.get("redirect_uri")!; // OpenAI uses redirect_uri
   }
   let state:string|undefined = qs.get("state") || undefined;
 
