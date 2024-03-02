@@ -15,15 +15,17 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     bottom: 0,
-    display: "block",
-    flexDirection: "row",
+    display: "flex",
+    flexDirection: "column",
     alignItems: "flex-start",
-    overflow: "auto",
     backgroundColor: "#dedede"
   },
   scheduleContainer:{
+    flexGrow: 1,
+    width: "100%",
     display:"flex",
     alignItems: "flex-start",
+    overflow: "auto"
   },
   schedule: {
     position: "relative",
@@ -186,24 +188,24 @@ const ScheduleShell = (props:{
       : <></>}
       {/* Times */}
       <div className={classes.scheduleContainer}>
-      <div className={classes.timesColumn}>
-        <DayHeader>&nbsp;</DayHeader>
-        {hours.map(h => (
-          <Typography key={h} variant="h6" style={{height: heightOfHour}}>{moment().startOf('day').add(h, 'hour').format('LT')}</Typography>
-        ))}
-      </div>
-      <div className={classes.schedule}>
-        {arrangers.filter(i => (i.date.weekday() !== 0 && i.date.weekday() !== 6) || i.isValid).map((a, i) => (
-          <div key={i} className={classes.scheduleColumn} style={{backgroundColor: i % 2 == 0 ? "#eeeeee" : "#dedede"}}>
-            <DayHeader>{a.date.format('dddd')}</DayHeader>
-            <div className={classes.columnItems} style={{height: (maxHour - minHour + 1) * heightOfHour}}>
-              {a.scheduleItems.map(s => (
-                  <ScheduleItem key={s.item.identifier.toString()} schedule={s.item} height={s.height} topOffset={s.topOffset} week={week}/>
-              ))}
-            </div>
-          </div>
-        ))}
+        <div className={classes.timesColumn}>
+          <DayHeader>&nbsp;</DayHeader>
+          {hours.map(h => (
+            <Typography key={h} variant="h6" style={{height: heightOfHour}}>{moment().startOf('day').add(h, 'hour').format('LT')}</Typography>
+          ))}
         </div>
+        <div className={classes.schedule}>
+          {arrangers.filter(i => (i.date.weekday() !== 0 && i.date.weekday() !== 6) || i.isValid).map((a, i) => (
+            <div key={i} className={classes.scheduleColumn} style={{backgroundColor: i % 2 == 0 ? "#eeeeee" : "#dedede"}}>
+              <DayHeader>{a.date.format('dddd')}</DayHeader>
+              <div className={classes.columnItems} style={{height: (maxHour - minHour + 1) * heightOfHour}}>
+                {a.scheduleItems.map(s => (
+                    <ScheduleItem key={s.item.identifier.toString()} schedule={s.item} height={s.height} topOffset={s.topOffset} week={week}/>
+                ))}
+              </div>
+            </div>
+          ))}
+          </div>
       </div>
     </div>
   );
