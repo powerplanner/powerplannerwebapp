@@ -54,14 +54,14 @@ const Welcome = () => {
   const history = NavigationHelper.history;
 
   let redirect:string|undefined;
-  const qs = NavigationHelper.history.location.search;
-  if (qs.startsWith("?redirect=")) {
-    redirect = qs.substr("?redirect=".length);
-    redirect = decodeURIComponent(redirect);
+  const qs = new URLSearchParams(NavigationHelper.history.location.search);
+  if (qs.has("redirect")) {
+    redirect = qs.get("redirect")!;
     if (redirect.startsWith('/')) {
       redirect = "https://powerplanner.net" + redirect;
     }
   }
+  let state:string|undefined = qs.get("state") || undefined;
 
   const isImporting = redirect !== undefined && redirect.indexOf('/import') !== -1;
 
@@ -114,7 +114,7 @@ const Welcome = () => {
       "": () => <MainContent/>,
       popups: {
         "/login": {
-          "": () => <LogInDialog open onClose={() => history.goBack()} redirect={redirect}/>,
+          "": () => <LogInDialog open onClose={() => history.goBack()} redirect={redirect} state={state}/>,
           "/forgot-username": () => <ForgotUsernameDialog open/>,
           "/forgot-password": () => <ForgotPasswordDialog open/>
         },
