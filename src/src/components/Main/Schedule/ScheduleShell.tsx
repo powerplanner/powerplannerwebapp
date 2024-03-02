@@ -163,12 +163,10 @@ const ScheduleShell = (props:{
     a.calculateOffsets();
   });
 
-  // create a state for current week displayed
+  // create state for current week displayed
   const [week, setWeek] = React.useState(1);
 
   const handleChange = (event:any, newValue:number) => {
-    console.log(newValue)
-    console.log(week)
     if(newValue === 0){
       setWeek(1);
     }
@@ -177,8 +175,18 @@ const ScheduleShell = (props:{
     }
   }
 
+  // check if any items have a week a or b schedule or if it's all set to every week
+  var multiWeek = false
+  arrangers.forEach(a => {
+    a.scheduleItems.forEach(s => {
+      if(s.item.scheduleWeek !== 3){
+        multiWeek = true
+      }
+    })
+  })
   return (
     <div className={classes.root}>
+      {multiWeek ?
       <AppBar position="static" color="secondary">
         <Toolbar className={classes.toolbar} variant="dense">
           <Tabs className={classes.tabs} value={week - 1} onChange={handleChange} indicatorColor="primary">
@@ -187,6 +195,7 @@ const ScheduleShell = (props:{
           </Tabs>
         </Toolbar>
       </AppBar>
+      : <></>}
       {/* Times */}
       <div className={classes.scheduleContainer}>
       <div className={classes.timesColumn}>
