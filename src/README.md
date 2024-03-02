@@ -28,4 +28,4 @@ Your app is ready to be deployed!
 
 ## Staging website
 
-Code in master will automatically get built and deployed to https://powerplannerwebappstage.z5.web.core.windows.net/login
+Code in master will automatically get built and deployed to https://app.powerplanner.net via GitHub Actions (yes, straight to the main site). I think pull requests might get published to a staging site... it's using Azure Static Websites, so I think a pull request gets deployed to a subdomain. There might be issues with external pull requests not publishing to those staging sites though.
