@@ -3,7 +3,7 @@ import { ViewItemClass, ViewItemSchedule } from "models/viewItems";
 import DayScheduleItemsArranger from "models/dayScheduleItemsArranger";
 import * as moment from "moment";
 import ArrayHelpers from "helpers/arrayHelpers";
-import { Typography, makeStyles } from "@material-ui/core";
+import { Typography, makeStyles, Tabs, Tab, AppBar, Toolbar} from "@material-ui/core";
 
 const heightOfHour = 120;
 const width = 200;
@@ -16,10 +16,16 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     bottom: 0,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "flex-start",
-    overflow: "auto",
     backgroundColor: "#dedede"
+  },
+  scheduleContainer:{
+    flexGrow: 1,
+    width: "100%",
+    display:"flex",
+    alignItems: "flex-start",
+    overflow: "auto"
   },
   schedule: {
     position: "relative",
@@ -48,7 +54,37 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     boxSizing: "border-box",
     overflow: "hidden"
-  }
+  },
+  weekSelectorButton:{
+    display: "block",
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    border: "1px solid black",
+    borderRadius: theme.spacing(1),
+    backgroundColor: "#dedede",
+    "&:hover": {
+      backgroundColor: "#eeeeee"
+    }
+  },
+  activeWeekSelectorButton:{
+    display: "block",
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    border: "1px solid black",
+    borderRadius: theme.spacing(1),
+    backgroundColor: "#eeeeee",
+    "&:hover": {
+      backgroundColor: "#dedede"
+    }
+  },
+  toolbar: {
+    alignItems: 'flex-start',
+    display: "block"
+  },
+  tabs: {
+    flexGrow: 1,
+    alignSelf: 'flex-end'
+  },
 }));
 
 const ScheduleShell = (props:{
@@ -61,11 +97,13 @@ const ScheduleShell = (props:{
     return <Typography variant="h6">{props.children}</Typography>
   }
 
-  const ScheduleItem = (props:{schedule:ViewItemSchedule, height:number, topOffset:number}) => {
+  const ScheduleItem = (props:{schedule:ViewItemSchedule, height:number, topOffset:number, week:number}) => {
     const s = props.schedule;
     const timeString = `${s.startDateTime.format("LT")} to ${s.endDateTime.format("LT")}`;
     const textVariant = "body2";
 
+    const week = props.week
+    if(props.schedule.scheduleWeek === 3 || props.schedule.scheduleWeek === week){
     return (
       <div className={classes.scheduleItem} style={{backgroundColor: s.class.color, height: props.height, top: props.topOffset}}>
         <Typography variant={textVariant}>{s.class.name}</Typography>
@@ -75,6 +113,11 @@ const ScheduleShell = (props:{
         )}
       </div>
     )
+    }else{
+      return (
+        <></>
+      )
+    }
   }
 
   const startOfWeek = moment().startOf('week');
@@ -110,27 +153,59 @@ const ScheduleShell = (props:{
     a.calculateOffsets();
   });
 
+  // create state for current week displayed
+  const [week, setWeek] = React.useState(1);
 
+  const handleChange = (event:any, newValue:number) => {
+    if(newValue === 0){
+      setWeek(1);
+    }
+    else{
+      setWeek(2);
+    }
+  }
+
+  // check if any items have a week a or b schedule or if it's all set to every week
+  var multiWeek = false
+  arrangers.forEach(a => {
+    a.scheduleItems.forEach(s => {
+      if(s.item.scheduleWeek !== 3){
+        multiWeek = true
+      }
+    })
+  })
   return (
     <div className={classes.root}>
+      {multiWeek ?
+      <AppBar position="static" color="secondary">
+        <Toolbar className={classes.toolbar} variant="dense">
+          <Tabs className={classes.tabs} value={week - 1} onChange={handleChange} indicatorColor="primary">
+            <Tab label="Week A"/>
+            <Tab label="Week B"/>
+          </Tabs>
+        </Toolbar>
+      </AppBar>
+      : <></>}
       {/* Times */}
-      <div className={classes.timesColumn}>
-        <DayHeader>&nbsp;</DayHeader>
-        {hours.map(h => (
-          <Typography key={h} variant="h6" style={{height: heightOfHour}}>{moment().startOf('day').add(h, 'hour').format('LT')}</Typography>
-        ))}
-      </div>
-      <div className={classes.schedule}>
-        {arrangers.filter(i => (i.date.weekday() !== 0 && i.date.weekday() !== 6) || i.isValid).map((a, i) => (
-          <div key={i} className={classes.scheduleColumn} style={{backgroundColor: i % 2 == 0 ? "#eeeeee" : "#dedede"}}>
-            <DayHeader>{a.date.format('dddd')}</DayHeader>
-            <div className={classes.columnItems} style={{height: (maxHour - minHour + 1) * heightOfHour}}>
-              {a.scheduleItems.map(s => (
-                <ScheduleItem key={s.item.identifier.toString()} schedule={s.item} height={s.height} topOffset={s.topOffset}/>
-              ))}
+      <div className={classes.scheduleContainer}>
+        <div className={classes.timesColumn}>
+          <DayHeader>&nbsp;</DayHeader>
+          {hours.map(h => (
+            <Typography key={h} variant="h6" style={{height: heightOfHour}}>{moment().startOf('day').add(h, 'hour').format('LT')}</Typography>
+          ))}
+        </div>
+        <div className={classes.schedule}>
+          {arrangers.filter(i => (i.date.weekday() !== 0 && i.date.weekday() !== 6) || i.isValid).map((a, i) => (
+            <div key={i} className={classes.scheduleColumn} style={{backgroundColor: i % 2 == 0 ? "#eeeeee" : "#dedede"}}>
+              <DayHeader>{a.date.format('dddd')}</DayHeader>
+              <div className={classes.columnItems} style={{height: (maxHour - minHour + 1) * heightOfHour}}>
+                {a.scheduleItems.map(s => (
+                    <ScheduleItem key={s.item.identifier.toString()} schedule={s.item} height={s.height} topOffset={s.topOffset} week={week}/>
+                ))}
+              </div>
             </div>
+          ))}
           </div>
-        ))}
       </div>
     </div>
   );
