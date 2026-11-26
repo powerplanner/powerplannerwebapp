@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Router as BrowserRouter } from "react-router";
 import { Route, Link, Redirect, Switch } from "react-router-dom";
 import Welcome from 'components/Welcome';
+import Authorize from 'components/Authorize';
 import Main from 'components/Main';
 import AccountHelper from "helpers/accountHelper";
 import NavigationHelper from "helpers/navigationHelper";
@@ -26,6 +27,9 @@ const Router = observer(() => {
     <BrowserRouter history={NavigationHelper.history}>
       {/* Switch stops at the first match */}
       <Switch>
+        <Route path="/authorize">
+          <Authorize/>
+        </Route>
         <Route path="/login">
           <Welcome/>
         </Route>

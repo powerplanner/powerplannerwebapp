@@ -52,6 +52,7 @@
     "@storybook/addon-links": "^5.0.6",
     "@storybook/addons": "^5.0.6",
     "@storybook/react": "^5.0.6",
+    "@types/node": "18.11.18",
     "@types/storybook__react": "^4.0.1",
     "babel-loader": "^8.0.5",
     "copy-webpack-plugin": "^5.1.1",
@@ -67,5 +68,8 @@
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.2"
+  },
+  "overrides": {
+    "@types/node": "$@types/node"
   }
 }
