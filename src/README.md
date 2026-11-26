@@ -6,6 +6,9 @@
 1. Open [http://localhost:8080](http://localhost:8080) in a web browser
 1. Make edits, save, and it'll reload!
 
+## Dependency compatibility
+
+The exact `@types/node` dev dependency and its override pin Node typings compatible with TypeScript 4.9, including transitive dependencies. Newer typings use syntax this compiler cannot parse; `skipLibCheck` does not bypass those syntax errors. Update the compiler/toolchain before removing this pin.
 
 ## Other scripts
 

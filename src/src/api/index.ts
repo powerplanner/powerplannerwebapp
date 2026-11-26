@@ -41,21 +41,8 @@ export default class Api {
     return await this.postRequestAsync("/DeleteAccountModern", {});
   }
 
-  static async getAgendaAsync(semesterId: Guid) : Promise<Responses.IPowerGetAgendaResponse> {
-    return await this.postRequestAsync("/GetAgenda", {
-      SemesterIdentifier: semesterId.toString(),
-      CurrentTime: new Date().toISOString()
-    });
-  }
-
   static async getSelectedSemesterId() {
     return await this.postRequestAsync<Responses.IPowerSelectedSemesterIdResponse>("/GetSelectedSemesterId", {});
-  }
-
-  static async getClassesAndSchedulesAsync(semesterId: Guid) {
-    return await this.postRequestAsync<Responses.IPowerGetClassesAndScheduleResponse>("/GetClassesAndSchedules", {
-      SemesterIdentifier: semesterId.toString()
-    });
   }
 
   static async getClassesSchedulesAndMegaItemsAsync(semesterId: Guid) {

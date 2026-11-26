@@ -11,6 +11,7 @@ import NavigationHelper from "helpers/navigationHelper";
 import GlobalState from 'models/globalState';
 import TextFieldHelpers from 'helpers/textFieldHelpers';
 import { Link as RouteLink } from "react-router-dom";
+import { AuthorizationRequest, createAuthorizationRedirect } from 'helpers/oauthHelper';
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -25,7 +26,8 @@ const styles = (theme: Theme) => createStyles({
 
 export interface LogInDialogProps extends PopupDialogBaseProps, WithStyles<typeof styles> {
   redirect?: string,
-  state?: string
+  state?: string,
+  authorization?: AuthorizationRequest
 }
 
 interface LogInDialogState extends PopupDialogBaseState {
@@ -91,14 +93,19 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
 
   finishLogin() {
 
+    if (this.props.authorization) {
+      const request = this.props.authorization;
+      const acct = AccountHelper.getAccountCredentials();
+      const redirect = new URL(createAuthorizationRedirect(request.redirectUri, request.state, acct.username, acct.session));
+      redirect.searchParams.set("iss", "https://powerplanner.net");
+      window.location.href = redirect.href;
+      return;
+    }
+
     if (this.props.redirect) {
       if (this.props.redirect.startsWith("https://chat.openai.com/")) {
         var acct = AccountHelper.getAccountCredentials();
-        var params = new URLSearchParams({
-          code: acct.username + ";" + acct.session,
-          state: this.props.state ?? ""
-        });
-        window.location.href = this.props.redirect + "?" + params.toString();
+        window.location.href = createAuthorizationRedirect(this.props.redirect, this.props.state ?? "", acct.username, acct.session);
         return;
       }
       window.location.href = this.props.redirect;
@@ -147,14 +154,26 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
   }
 
   getTitle() {
-    return "LOG IN";
+    return this.props.authorization ? "POWER PLANNER: AUTHORIZE APP" : "LOG IN";
   }
 
   renderContent() {
     const { classes } = this.props;
+    const authorization = this.props.authorization;
+    const recoveryLink = (page: string) => authorization
+      ? { pathname: "/authorize/" + page, search: window.location.search }
+      : { pathname: "/login/login/" + page };
 
     return (
       <form className={classes.root}>
+        {authorization &&
+          <div>
+            <Typography paragraph>
+              <strong>{authorization.clientName} ({new URL(authorization.clientId).hostname})</strong> is requesting access to your Power Planner account.
+              Log in and authorize only if you trust {authorization.clientName} and want it to receive access to your Power Planner account data.
+            </Typography>
+          </div>
+        }
         {this.state.error &&
           <Typography variant="body1" color="error">
             {this.state.error}
@@ -183,8 +202,8 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
           onChange={(e) => this.setState({ password: e.target.value })}
         />
         <div className={classes.forgotContainer}>
-          <Button color="primary" disabled={this.state.signingIn} component={RouteLink} to="/login/login/forgot-username">Forgot Username</Button> |
-          <Button color="primary"disabled={this.state.signingIn} component={RouteLink} to="/login/login/forgot-password">Forgot Password</Button>
+          <Button color="primary" disabled={this.state.signingIn} component={RouteLink} to={recoveryLink("forgot-username")}>Forgot Username</Button> |
+          <Button color="primary"disabled={this.state.signingIn} component={RouteLink} to={recoveryLink("forgot-password")}>Forgot Password</Button>
         </div>
       </form>
     );
@@ -192,7 +211,14 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
 
   renderActions() {
     return (
-      <LoadingButton onClick={this.logIn} loading={this.state.signingIn} success={this.state.signedIn}>Log In</LoadingButton>
+      <>
+        {this.props.authorization &&
+          <Button onClick={this.onClose} disabled={this.state.signingIn}>Cancel</Button>
+        }
+        <LoadingButton onClick={this.logIn} loading={this.state.signingIn} success={this.state.signedIn}>
+          {this.props.authorization ? "Log In and Authorize" : "Log In"}
+        </LoadingButton>
+      </>
     );
   }
 }

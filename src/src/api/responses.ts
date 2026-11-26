@@ -5,11 +5,6 @@ export interface IPowerPlainResponse {
   Error?: string
 }
 
-export interface IPowerGetAgendaResponse extends IPowerPlainResponse {
-  Items: IPowerListItemTaskOrEvent[],
-  Classes: IPowerBasicClassInfo[] // I'm purposefully omitting the schedule portion, that info should come from a different API
-};
-
 export interface IPowerLoginModernResponse extends IPowerPlainResponse {
   AccountId: number,
   Session: string
