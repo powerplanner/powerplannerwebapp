@@ -1,7 +1,15 @@
 {
   "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/.well-known/oauth-authorization-server",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  ],
   "navigationFallback": {
     "rewrite": "index.html",
-    "exclude": ["/assets/*", "/manifest.json", "/bundle.js*", "/css/*"]
+    "exclude": ["/assets/*", "/manifest.json", "/bundle.js*", "/css/*", "/.well-known/oauth-authorization-server"]
   }
 }
