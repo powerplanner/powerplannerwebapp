@@ -3,13 +3,11 @@
   "routes": [
     {
       "route": "/.well-known/oauth-authorization-server",
-      "headers": {
-        "Content-Type": "application/json"
-      }
+      "rewrite": "/.well-known/oauth-authorization-server.json"
     }
   ],
   "navigationFallback": {
     "rewrite": "index.html",
-    "exclude": ["/assets/*", "/manifest.json", "/bundle.js*", "/css/*", "/.well-known/oauth-authorization-server"]
+    "exclude": ["/assets/*", "/manifest.json", "/bundle.js*", "/css/*", "/.well-known/oauth-authorization-server*"]
   }
 }

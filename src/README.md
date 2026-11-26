@@ -14,7 +14,7 @@ The exact `@types/node` dev dependency and its override pin Node typings compati
 
 The authorization server issuer is `https://app.powerplanner.net`. Configure OAuth clients and any MCP protected-resource metadata (`authorization_servers`) with that exact value, without a trailing slash. Discovery is served at `https://app.powerplanner.net/.well-known/oauth-authorization-server`, and both successful and denied authorization responses return the same issuer in `iss`.
 
-The Azure Static Web Apps configuration serves this extensionless discovery document as `application/json` and excludes it from the SPA navigation fallback.
+The discovery document is stored as [oauth-authorization-server.json](public/.well-known/oauth-authorization-server.json) and copied with the other public assets. Azure Static Web Apps internally rewrites the standard extensionless discovery URL to that asset so its MIME type is `application/json`, without redirecting the client. Both paths are excluded from the SPA navigation fallback. The webpack dev server also serves the extensionless URL from the JSON source.
 
 The token endpoint and client metadata proxy remain hosted on `https://powerplanner.net`; OAuth endpoint URLs do not have to share the issuer's origin.
 

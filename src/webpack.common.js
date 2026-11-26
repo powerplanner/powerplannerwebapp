@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+const path = require('path')
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
@@ -15,7 +16,12 @@ module.exports = {
 
   devServer: {
     // Support dynamic client-side routing
-    historyApiFallback: true
+    historyApiFallback: true,
+    before: app => {
+      app.get('/.well-known/oauth-authorization-server', (_req, res) => {
+        res.sendFile(path.join(__dirname, 'public', '.well-known', 'oauth-authorization-server.json'));
+      });
+    }
   },
 
   resolve: {
