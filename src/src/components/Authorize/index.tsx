@@ -5,7 +5,7 @@ import PopupDialog from 'components/PopupDialog';
 import LogInDialog from 'components/Welcome/LogInDialog';
 import ForgotUsernameDialog from 'components/Welcome/ForgotUsernameDialog';
 import ForgotPasswordDialog from 'components/Welcome/ForgotPasswordDialog';
-import { AuthorizationRequest, loadAuthorizationRequest } from 'helpers/oauthHelper';
+import { AuthorizationRequest, authorizationServerIssuer, loadAuthorizationRequest } from 'helpers/oauthHelper';
 
 const Authorize = () => {
   const location = useLocation();
@@ -54,7 +54,7 @@ const Authorize = () => {
     const redirect = new URL(request.redirectUri);
     redirect.searchParams.set("error", "access_denied");
     redirect.searchParams.set("state", request.state);
-    redirect.searchParams.set("iss", "https://powerplanner.net");
+    redirect.searchParams.set("iss", authorizationServerIssuer);
     window.location.href = redirect.href;
   };
   if (location.pathname === "/authorize/forgot-username") {

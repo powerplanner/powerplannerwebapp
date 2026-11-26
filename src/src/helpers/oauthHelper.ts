@@ -1,3 +1,5 @@
+export const authorizationServerIssuer = "https://app.powerplanner.net";
+
 export interface AuthorizationRequest {
   clientId: string;
   clientName: string;

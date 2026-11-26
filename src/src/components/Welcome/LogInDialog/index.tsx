@@ -11,7 +11,7 @@ import NavigationHelper from "helpers/navigationHelper";
 import GlobalState from 'models/globalState';
 import TextFieldHelpers from 'helpers/textFieldHelpers';
 import { Link as RouteLink } from "react-router-dom";
-import { AuthorizationRequest, createAuthorizationRedirect } from 'helpers/oauthHelper';
+import { AuthorizationRequest, authorizationServerIssuer, createAuthorizationRedirect } from 'helpers/oauthHelper';
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -97,7 +97,7 @@ class LogInDialog extends PopupDialogBase<LogInDialogProps, LogInDialogState> {
       const request = this.props.authorization;
       const acct = AccountHelper.getAccountCredentials();
       const redirect = new URL(createAuthorizationRedirect(request.redirectUri, request.state, acct.username, acct.session));
-      redirect.searchParams.set("iss", "https://powerplanner.net");
+      redirect.searchParams.set("iss", authorizationServerIssuer);
       window.location.href = redirect.href;
       return;
     }

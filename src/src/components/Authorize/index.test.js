@@ -84,7 +84,7 @@ it('shows client identity and requires login before returning the existing code 
   await render();
   expect(document.body.textContent).toContain('Example Client');
   expect(document.body.textContent).toContain('client.example');
-  expect(document.body.textContent).toContain('access to your account');
+  expect(document.body.textContent).toContain('access to your Power Planner account');
   expect(Api.logInAsync).not.toHaveBeenCalled();
 
   act(() => {
@@ -98,7 +98,7 @@ it('shows client identity and requires login before returning the existing code 
   expect(redirect.searchParams.get('existing')).toBe('1');
   expect(redirect.searchParams.get('code')).toBe('test-user;test-session');
   expect(redirect.searchParams.get('state')).toBe('original +&=state');
-  expect(redirect.searchParams.get('iss')).toBe('https://powerplanner.net');
+  expect(redirect.searchParams.get('iss')).toBe('https://app.powerplanner.net');
 });
 
 it('returns access_denied and state to the validated callback when canceled', async () => {
@@ -107,6 +107,7 @@ it('returns access_denied and state to the validated callback when canceled', as
   const redirect = new URL(window.location.href);
   expect(redirect.searchParams.get('error')).toBe('access_denied');
   expect(redirect.searchParams.get('state')).toBe('original +&=state');
+  expect(redirect.searchParams.get('iss')).toBe('https://app.powerplanner.net');
   expect(redirect.searchParams.has('code')).toBe(false);
   expect(Api.logInAsync).not.toHaveBeenCalled();
 });

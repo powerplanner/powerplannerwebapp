@@ -10,6 +10,12 @@
 
 The exact `@types/node` dev dependency and its override pin Node typings compatible with TypeScript 4.9, including transitive dependencies. Newer typings use syntax this compiler cannot parse; `skipLibCheck` does not bypass those syntax errors. Update the compiler/toolchain before removing this pin.
 
+## OAuth issuer
+
+The authorization server issuer is `https://app.powerplanner.net`. Configure OAuth clients and any MCP protected-resource metadata (`authorization_servers`) with that exact value, without a trailing slash. Discovery is served at `https://app.powerplanner.net/.well-known/oauth-authorization-server`, and both successful and denied authorization responses return the same issuer in `iss`.
+
+The token endpoint and client metadata proxy remain hosted on `https://powerplanner.net`; OAuth endpoint URLs do not have to share the issuer's origin.
+
 ## Other scripts
 
 
